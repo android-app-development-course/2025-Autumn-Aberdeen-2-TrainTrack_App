@@ -120,11 +120,11 @@ graph TB
         VM_Nut[NutritionViewModel]
         VM_Comm[CommunityViewModel]
         VM_Prof[ProfileViewModel]
-        LD[LiveData / Flow]
+        LD["LiveData / Flow"]
     end
     
     subgraph "Model Layer"
-        DB[AppDatabase (Room)]
+        DB["AppDatabase (Room)"]
         DAO_Work[WorkoutDao]
         DAO_Nut[NutritionDao]
         DAO_User[UserDao]
