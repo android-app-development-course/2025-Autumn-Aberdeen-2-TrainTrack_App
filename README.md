@@ -105,35 +105,71 @@ TrainTrack 采用 **MVVM (Model-View-ViewModel)** 架构模式，结合 Android 
 ```mermaid
 graph TB
     subgraph "View Layer"
-        A[Activity / Fragment]
-        B[XML Layouts]
-        C[View Binding]
+        UI_Home[HomeFragment]
+        UI_Work[WorkoutActivity]
+        UI_Nut[NutritionFragment]
+        UI_Comm[CommunityFragment]
+        UI_Prof[ProfileFragment]
+        XML[XML Layouts]
+        Bind[ViewBinding]
     end
     
     subgraph "ViewModel Layer"
-        D[ViewModel]
-        E[LiveData]
+        VM_Home[HomeViewModel]
+        VM_Work[WorkoutViewModel]
+        VM_Nut[NutritionViewModel]
+        VM_Comm[CommunityViewModel]
+        VM_Prof[ProfileViewModel]
+        LD[LiveData / Flow]
     end
     
     subgraph "Model Layer"
-        F[Room Database]
-        G[DAO Interfaces]
-        H[Entity Classes]
+        DB[AppDatabase (Room)]
+        DAO_Work[WorkoutDao]
+        DAO_Nut[NutritionDao]
+        DAO_User[UserDao]
+        DAO_Other[Other DAOs]
+        Entities[21 Data Entities]
+        Engine[RecommendationEngine]
     end
     
     subgraph "External Services"
-        I[FatSecret API]
-        J[Kimi AI API]
+        API_Food[FatSecret API Service]
+        API_AI[Kimi AI Service]
     end
     
-    A --> C
-    C --> D
-    D --> E
-    D --> G
-    G --> F
-    F --> H
-    D --> I
-    D --> J
+    %% View -> ViewModel interactions
+    UI_Home --> Bind
+    UI_Home --> VM_Home
+    UI_Work --> Bind
+    UI_Work --> VM_Work
+    UI_Nut --> VM_Nut
+    UI_Comm --> VM_Comm
+    UI_Prof --> VM_Prof
+    
+    %% ViewModel -> Data interactions
+    VM_Home --> DAO_Work
+    VM_Home --> Engine
+    VM_Work --> DAO_Work
+    VM_Nut --> DAO_Nut
+    VM_Nut --> API_Food
+    VM_Nut --> API_AI
+    VM_Comm --> DAO_User
+    VM_Prof --> DAO_User
+    VM_Prof --> DAO_Work
+    
+    %% Data Layer internals
+    Engine --> DAO_Work
+    DAO_Work --> DB
+    DAO_Nut --> DB
+    DAO_User --> DB
+    DAO_Other --> DB
+    DB --> Entities
+    
+    %% ViewModel exposes LiveData
+    VM_Home --> LD
+    VM_Work --> LD
+    VM_Nut --> LD
 ```
 
 ### 3.2 模块结构
