@@ -214,27 +214,46 @@ com.example.tt/
 
 ```mermaid
 graph LR
-    subgraph "Bottom Navigation"
-        H[Training 训练]
-        A[Actions 动作]
+    subgraph "Navigation"
+        H[Training 训练页]
+        A[Actions 动作库]
         C[Community 社区]
-        P[Profile 我的]
+        P[Profile 个人中心]
     end
+
+    %% Training Module
+    H --> H_Tabs[计划分类: 推荐/官方/模板/个人]
+    H_Tabs --> WA[执行训练 WorkoutActivity]
+    H --> H_Nut[营养模块 NutritionFragment]
+    H_Nut --> Nut_Search[食物搜索]
+    H_Nut --> Nut_AI[AI 饮食建议]
+    H --> FAB[快速记录 FAB]
+    FAB --> FAB_Acts[新建训练/有氧/HIIT/记录饮食/身体数据]
+
+    %% Actions Module
+    A --> A_Search[动作搜索]
+    A --> A_Muscle[肌群分类]
+    A_Muscle --> A_List[动作列表]
+    A_List --> A_Detail[动作详情 ExerciseDetailActivity]
+
+    %% Community Module
+    C --> C_Feed[社区动态流]
+    C_Feed --> C_Post[发布帖子 ComposePostActivity]
+    C_Feed --> C_Comment[评论互动 BottomSheet]
+
+    %% Profile Module
+    P --> P_Info[用户信息/等级/图表]
+    P --> P_Tools[工具集]
     
-    H --> HP[训练计划列表]
-    HP --> WA[WorkoutActivity]
-    
-    A --> EL[动作库列表]
-    EL --> ED[ExerciseDetailActivity]
-    
-    C --> CF[社区动态]
-    CF --> CP[发布帖子]
-    
-    P --> PF[个人中心]
-    PF --> T1[RM 计算器]
-    PF --> T2[照片墙]
-    PF --> T3[笔记]
-    PF --> T4[历史记录]
+    subgraph "Profile Tools"
+        P_Tools --> T1[RM 计算器]
+        P_Tools --> T2[照片墙]
+        P_Tools --> T3[健身笔记]
+        P_Tools --> T4[训练历史]
+        P_Tools --> T5[设置/偏好]
+        P_Tools --> T6[教练计划]
+        P_Tools --> T7[用户反馈]
+    end
 ```
 
 ---
